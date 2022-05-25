@@ -23,9 +23,15 @@ const winesSchema = Joi.object({
   years: Joi.number().required(),
 });
 
+const collectionSchema = Joi.object({
+  wine_id: Joi.number().required(),
+  quantity: Joi.number().required(),
+});
+
 module.exports = {
   registrationSchema,
   loginSchema,
   changepasswordSchema,
   winesSchema,
+  collectionSchema,
 };

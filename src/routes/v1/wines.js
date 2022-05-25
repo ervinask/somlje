@@ -2,11 +2,12 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 
 const { mysqlConfig } = require('../../config');
+const isLoggedIn = require('../../middleware/auth');
 const { winesValidator } = require('../../middleware/validation');
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', isLoggedIn, async (req, res) => {
   try {
     const con = await mysql.createConnection(mysqlConfig);
     const [data] = await con.execute(`SELECT * FROM wines`);
@@ -19,7 +20,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', winesValidator, async (req, res) => {
+router.post('/', isLoggedIn, winesValidator, async (req, res) => {
   try {
     const con = await mysql.createConnection(mysqlConfig);
     const [data] = await con.execute(`

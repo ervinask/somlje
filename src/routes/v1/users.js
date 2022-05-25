@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const { mysqlConfig, jwtSecret } = require('../../config');
 const { registrationValidator, loginValidator, changepasswordValidator } = require('../../middleware/validation');
+const isLoggedIn = require('../../middleware/auth');
 
 const router = express.Router();
 
@@ -42,7 +43,7 @@ router.post('/login', loginValidator, async (req, res) => {
     const con = await mysql.createConnection(mysqlConfig);
     const [data] = await con.execute(`
       SELECT id, email, password
-      FROM useri 
+      FROM user 
       WHERE email = ${mysql.escape(req.body.email)} LIMIT 1`);
     await con.end();
 
@@ -69,7 +70,7 @@ router.post('/login', loginValidator, async (req, res) => {
   }
 });
 
-router.post('/changepassword', changepasswordValidator, async (req, res) => {
+router.post('/changepassword', isLoggedIn, changepasswordValidator, async (req, res) => {
   try {
     const con = await mysql.createConnection(mysqlConfig);
     const [data] = await con.execute(`

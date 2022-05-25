@@ -1,4 +1,10 @@
-const { registrationSchema, loginSchema, changepasswordSchema, winesSchema } = require('../schemas/users');
+const {
+  registrationSchema,
+  loginSchema,
+  changepasswordSchema,
+  winesSchema,
+  collectionSchema,
+} = require('../schemas/schemas');
 
 const validator = async (req, res, next, schema) => {
   try {
@@ -15,4 +21,5 @@ module.exports = {
   loginValidator: (req, res, next) => validator(req, res, next, loginSchema),
   changepasswordValidator: (req, res, next) => validator(req, res, next, changepasswordSchema),
   winesValidator: (req, res, next) => validator(req, res, next, winesSchema),
+  collectionValidator: (req, res, next) => validator(req, res, next, collectionSchema),
 };
